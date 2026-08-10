@@ -277,6 +277,135 @@
     color: var(--muted);
   }
 
+  /* ---- signed-in dashboard ---- */
+  #signedInView {
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dash-header .eyebrow { margin: 0 0 8px; }
+
+  .dash-header h1 {
+    font-size: clamp(24px, 3.4vw, 32px);
+    margin: 0;
+  }
+
+  .signout-link {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .signout-link:hover, .signout-link:focus-visible {
+    color: var(--text);
+    border-color: #3a4456;
+    outline: none;
+  }
+
+  .rack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .unit {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 22px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .unit:hover, .unit:focus-visible {
+    background: var(--panel-hover);
+    border-color: #3a4456;
+    transform: translateX(3px);
+    outline: none;
+  }
+
+  .unit-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--amber);
+  }
+
+  .unit-icon svg { width: 18px; height: 18px; }
+
+  .unit-body { flex: 1; min-width: 0; }
+
+  .unit-name {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 3px;
+  }
+
+  .unit-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .unit-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .unit-status .led {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .arrow {
+    font-family: var(--mono);
+    color: var(--muted);
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .unit:hover .arrow, .unit:focus-visible .arrow {
+    transform: translateX(3px);
+    color: var(--amber);
+  }
+
 
 
   /* ---- footer ---- */
@@ -306,6 +435,8 @@
   @media (max-width: 480px) {
     footer { flex-direction: column; align-items: flex-start; gap: 6px; }
     .signin-card { padding: 28px 22px; }
+    .dash-header { flex-direction: column; align-items: flex-start; }
+    .unit { padding: 16px; gap: 14px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -317,7 +448,7 @@
 </head>
 <body>
   <main>
-    <div class="split">
+    <div class="split" id="signedOutView">
       <div class="brand-col">
         <p class="eyebrow">thelabnuc // homelab</p>
         <h1>Your homelab,<br>one login away.<span class="cursor"></span></h1>
@@ -373,6 +504,54 @@
           <span id="cardStatusDot" style="width:6px;height:6px;border-radius:50%;background:var(--muted);display:inline-block;"></span>
           <span id="cardStatusText">checking auth service&hellip;</span>
         </div>
+      </div>
+    </div>
+
+    <div id="signedInView" style="display:none;">
+      <div class="dash-header">
+        <div>
+          <p class="eyebrow">thelabnuc // homelab</p>
+          <h1>Available services</h1>
+        </div>
+        <a class="signout-link" href="https://auth.thelabnuc.com/logout" id="signoutBtn">Sign out</a>
+      </div>
+
+      <div class="rack">
+        <a class="unit" href="https://wol.thelabnuc.com" target="_blank" rel="noopener">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Wakeup</p>
+            <p class="unit-desc">Power machines on remotely across the lab with one click.</p>
+          </div>
+          <span class="unit-status"><span class="led"></span>Available</span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://uptime.thelabnuc.com" target="_blank" rel="noopener">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Service Status</p>
+            <p class="unit-desc">Live status for every host and service running on the cluster.</p>
+          </div>
+          <span class="unit-status"><span class="led"></span>Available</span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://tty.thelabnuc.com" target="_blank" rel="noopener">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Browser Access</p>
+            <p class="unit-desc">A full browser shell into the cluster, no SSH client needed.</p>
+          </div>
+          <span class="unit-status"><span class="led"></span>Available</span>
+          <span class="arrow">&rarr;</span>
+        </a>
       </div>
     </div>
   </main>
@@ -444,6 +623,58 @@
 
     checkAuthConnectivity();
     setInterval(checkAuthConnectivity, CHECK_INTERVAL_MS);
+
+    // ---- Session check: is this browser actually signed in? ----
+    // This is different from the reachability check above - reachability
+    // just tells us the auth host is up; this tells us whether the
+    // visitor's browser currently holds a valid session with it.
+    //
+    // IMPORTANT: replace SESSION_CHECK_URL below with whatever endpoint
+    // your auth layer exposes for verifying an existing session (many
+    // forward-auth setups expose something like /api/verify that returns
+    // 2xx when authenticated and 401 otherwise). For this to work at all
+    // from this page's origin, two things have to be true on the auth
+    // side:
+    //   1. Its session cookie must be scoped to the shared parent domain
+    //      (e.g. domain=.thelabnuc.com) so it's sent on requests here.
+    //   2. It must return CORS headers allowing this exact origin with
+    //      credentials (Access-Control-Allow-Credentials: true and a
+    //      specific Access-Control-Allow-Origin, not a wildcard).
+    // Without both, the check below will simply always report "not signed
+    // in" even for an authenticated visitor - it fails safe rather than
+    // ever showing the dashboard incorrectly.
+    const SESSION_CHECK_URL = 'https://auth.thelabnuc.com/api/verify';
+    const SESSION_CHECK_INTERVAL_MS = 60000;
+
+    async function checkSession() {
+      const signedOut = document.getElementById('signedOutView');
+      const signedIn = document.getElementById('signedInView');
+
+      try {
+        const res = await fetch(SESSION_CHECK_URL, {
+          method: 'GET',
+          credentials: 'include',
+          mode: 'cors',
+          cache: 'no-store',
+        });
+
+        if (res.ok) {
+          signedOut.style.display = 'none';
+          signedIn.style.display = 'block';
+        } else {
+          signedOut.style.display = 'grid';
+          signedIn.style.display = 'none';
+        }
+      } catch (err) {
+        // Network error, CORS block, or the endpoint isn't configured yet -
+        // fail safe by treating the visitor as signed out.
+        signedOut.style.display = 'grid';
+        signedIn.style.display = 'none';
+      }
+    }
+
+    checkSession();
+    setInterval(checkSession, SESSION_CHECK_INTERVAL_MS);
   </script>
 </body>
 </html>
