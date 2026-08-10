@@ -18,6 +18,7 @@
     --muted: #7c8798;
     --amber: #e8a544;
     --green: #5fbf7d;
+    --red: #e05d5d;
     --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
     --sans: 'IBM Plex Sans', system-ui, sans-serif;
   }
@@ -77,10 +78,28 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--green);
+    background: var(--muted);
     margin-right: 8px;
+    box-shadow: 0 0 6px var(--muted);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .statusbar .dot.checking {
+    background: var(--amber);
+    box-shadow: 0 0 6px var(--amber);
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .statusbar .dot.online {
+    background: var(--green);
     box-shadow: 0 0 6px var(--green);
     animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  .statusbar .dot.offline {
+    background: var(--red);
+    box-shadow: 0 0 6px var(--red);
+    animation: none;
   }
 
   @keyframes pulse {
@@ -180,10 +199,12 @@
     height: 9px;
     border-radius: 50%;
     margin-top: 2px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
   }
 
   .led.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
   .led.standby { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .led.off { background: var(--red); box-shadow: 0 0 8px var(--red); }
 
   .unit-body {
     flex: 1;
@@ -268,7 +289,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .led.on, .led.standby, .cursor, footer .prompt::after, .statusbar .dot {
+    .led.on, .led.standby, .cursor, footer .prompt::after, .statusbar .dot.online, .statusbar .dot.checking {
       animation: none;
     }
   }
@@ -277,7 +298,7 @@
 <body>
   <div class="wrap">
     <div class="statusbar">
-      <span><span class="dot"></span>auth.thelabnuc.com — online</span>
+      <span><span class="dot checking" id="statusDot"></span><span id="statusText">auth.thelabnuc.com — checking&hellip;</span></span>
       <span id="clock"></span>
     </div>
 
@@ -326,14 +347,67 @@
   </div>
 
   <script>
+    // ---- Clock: uses the visitor's actual local time and timezone, not a hardcoded label ----
+    function getTimeZoneAbbr() {
+      try {
+        const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+          .formatToParts(new Date());
+        const tz = parts.find(p => p.type === 'timeZoneName');
+        return tz ? tz.value : '';
+      } catch (e) {
+        return '';
+      }
+    }
+
     function updateClock() {
       const el = document.getElementById('clock');
       const now = new Date();
       const opts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-      el.textContent = now.toLocaleTimeString('en-GB', opts) + ' SGT';
+      const tzAbbr = getTimeZoneAbbr();
+      el.textContent = now.toLocaleTimeString('en-GB', opts) + (tzAbbr ? ' ' + tzAbbr : '');
     }
     updateClock();
     setInterval(updateClock, 1000);
+
+    // ---- Live connectivity check against auth.thelabnuc.com ----
+    // Cross-origin requests from a static page can't read the HTTP status of
+    // another origin, so this uses a no-cors probe: if the fetch resolves
+    // (even with an opaque response) the host answered; if it throws
+    // (DNS failure, connection refused, timeout) it's treated as offline.
+    const AUTH_HOST = 'https://auth.thelabnuc.com/';
+    const CHECK_INTERVAL_MS = 30000;
+    const TIMEOUT_MS = 5000;
+
+    async function checkAuthConnectivity() {
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('statusText');
+
+      dot.className = 'dot checking';
+      text.textContent = 'auth.thelabnuc.com — checking\u2026';
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      try {
+        // no-cors keeps this from failing purely due to CORS policy on the
+        // target; we only care whether the network request completed.
+        await fetch(AUTH_HOST, {
+          mode: 'no-cors',
+          cache: 'no-store',
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        dot.className = 'dot online';
+        text.textContent = 'auth.thelabnuc.com — online';
+      } catch (err) {
+        clearTimeout(timer);
+        dot.className = 'dot offline';
+        text.textContent = 'auth.thelabnuc.com — unreachable';
+      }
+    }
+
+    checkAuthConnectivity();
+    setInterval(checkAuthConnectivity, CHECK_INTERVAL_MS);
   </script>
 </body>
 </html>
