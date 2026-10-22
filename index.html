@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>thelabnuc // sign in</title>
 <meta name="description" content="Sign in to access thelabnuc.com homelab services.">
+<meta name="theme-color" content="#10141a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -40 824 705'%3E%3Crect x='-60' y='-40' width='824' height='705' rx='120' fill='rgb(16,20,26)'/%3E%3Cpath d='M109 435A137 137 0 0 1 190 180A165 165 0 0 1 514 180A137 137 0 0 1 595 435' fill='none' stroke='rgb(232,165,68)' stroke-width='46'/%3E%3Crect x='258' y='185' width='185' height='237' rx='14' fill='rgb(230,235,242)'/%3E%3Cpolygon points='115,270 243,235 243,425 115,452' fill='rgb(230,235,242)'/%3E%3Cpolygon points='589,270 461,235 461,425 589,452' fill='rgb(230,235,242)'/%3E%3Cpath d='M350 438V522M247 442V478L160 530M457 442V478L544 530' fill='none' stroke='rgb(232,165,68)' stroke-width='22'/%3E%3Ccircle cx='350' cy='572' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='117' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='587' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -197,32 +199,47 @@
     box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
   }
 
-  .signin-card .logo-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
+  /* ---- logo ---- */
+  .tln-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
   }
 
-  .logo-mark {
-    width: 30px;
-    height: 30px;
-    border-radius: 7px;
-    background: linear-gradient(145deg, var(--amber), #c9822f);
+  .brand-lockup {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .brand-lockup .tln-logo {
+    width: 92px;
+    filter: drop-shadow(0 6px 18px rgba(232,165,68,0.18));
+  }
+
+  .wordmark {
     font-family: var(--mono);
     font-weight: 700;
-    font-size: 14px;
-    color: #10141a;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--text);
   }
 
-  .logo-row span {
-    font-family: var(--mono);
-    font-weight: 600;
-    font-size: 14.5px;
-    color: var(--text);
+  .wordmark b { color: var(--amber); font-weight: 700; }
+
+  .dash-title {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .dash-title .tln-logo {
+    width: 54px;
+    flex-shrink: 0;
   }
 
   .signin-card h2 {
@@ -424,10 +441,82 @@
     box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
   }
 
-  .hardware img {
+  .photo {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .photo img {
     display: block;
     width: 100%;
     height: auto;
+    filter: contrast(1.06) saturate(1.1) brightness(1.04);
+  }
+
+  /* vignette + soft amber glow from the top */
+  .photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 0%, rgba(232,165,68,0.14), transparent 65%),
+      radial-gradient(ellipse 120% 100% at 50% 50%, transparent 55%, rgba(8,10,14,0.55) 100%);
+  }
+
+  /* corner brackets */
+  .photo::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--amber), var(--amber)) top left / 18px 1.5px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) top left / 1.5px 18px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) top right / 18px 1.5px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) top right / 1.5px 18px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom left / 18px 1.5px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom left / 1.5px 18px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom right / 18px 1.5px no-repeat,
+      linear-gradient(var(--amber), var(--amber)) bottom right / 1.5px 18px no-repeat;
+    opacity: 0.85;
+  }
+
+  /* device labels */
+  .chip {
+    position: absolute;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(16,20,26,0.82);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .chip::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  @media (max-width: 560px) {
+    .chip { display: none; }
   }
 
   .hardware figcaption {
@@ -488,6 +577,44 @@
 </style>
 </head>
 <body>
+  <!-- thelabnuc logo, recoloured to the site palette -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="tln-logo" viewBox="0 0 704 625">
+      <!-- cloud -->
+      <path d="M109 435A137 137 0 0 1 190 180A165 165 0 0 1 514 180A137 137 0 0 1 595 435"
+            fill="none" stroke-width="46" style="stroke:var(--amber)"/>
+      <!-- servers -->
+      <g stroke-width="5" stroke-linejoin="round" style="fill:var(--bg);stroke:#3a4456">
+        <rect x="258" y="185" width="185" height="237" rx="14"/>
+        <polygon points="115,270 243,235 243,425 115,452"/>
+        <polygon points="589,270 461,235 461,425 589,452"/>
+      </g>
+      <!-- server slots -->
+      <g fill="none" stroke-width="11" stroke-linecap="round" style="stroke:var(--text)">
+        <path d="M295 242H403M295 278H403M295 317H360"/>
+        <path d="M143 297L210 276M143 323L210 305M143 352L180 342"/>
+        <path d="M561 297L494 276M561 323L494 305M561 352L524 342"/>
+      </g>
+      <!-- status LEDs -->
+      <g style="fill:var(--amber)">
+        <circle cx="392" cy="321" r="11"/><circle cx="392" cy="359" r="11"/>
+        <circle cx="203" cy="343" r="9"/><circle cx="203" cy="380" r="9"/>
+        <circle cx="501" cy="343" r="9"/><circle cx="501" cy="380" r="9"/>
+      </g>
+      <!-- connectors + nodes -->
+      <g fill="none" stroke-width="18" stroke-linejoin="round" style="stroke:var(--amber)">
+        <path d="M350 438V522"/>
+        <path d="M247 442V478L160 530"/>
+        <path d="M457 442V478L544 530"/>
+      </g>
+      <g fill="none" stroke-width="26" style="stroke:var(--amber)">
+        <circle cx="350" cy="572" r="37"/>
+        <circle cx="117" cy="555" r="37"/>
+        <circle cx="587" cy="555" r="37"/>
+      </g>
+    </symbol>
+  </svg>
+
   <main>
     <div class="split" id="signedOutView">
       <div class="brand-col">
@@ -529,9 +656,9 @@
       </div>
 
       <div class="signin-card">
-        <div class="logo-row">
-          <span class="logo-mark">TL</span>
-          <span>thelabnuc</span>
+        <div class="brand-lockup" role="img" aria-label="theLabNUC">
+          <svg class="tln-logo" viewBox="0 0 704 625" aria-hidden="true"><use href="#tln-logo"/></svg>
+          <span class="wordmark">theLab<b>NUC</b></span>
         </div>
         <h2>Sign in to continue</h2>
         <p class="sub">Authenticate once to unlock Wakeup, Service Status, and Browser Access.</p>
@@ -550,9 +677,12 @@
 
     <div id="signedInView" style="display:none;">
       <div class="dash-header">
-        <div>
-          <p class="eyebrow">thelabnuc // homelab</p>
-          <h1>Available services</h1>
+        <div class="dash-title">
+          <svg class="tln-logo" viewBox="0 0 704 625" role="img" aria-label="theLabNUC"><use href="#tln-logo"/></svg>
+          <div>
+            <p class="eyebrow">thelabnuc // homelab</p>
+            <h1>Available services</h1>
+          </div>
         </div>
         <a class="signout-link" href="https://auth.thelabnuc.com/logout" id="signoutBtn">Sign out</a>
       </div>
@@ -599,9 +729,15 @@
 
   <section class="hardware" aria-label="Homelab hardware">
     <figure>
-      <img src="homelab.jpg"
-           alt="Homelab hardware: three stacked Intel NUCs, a Synology DS220 NAS, an ASUS NUC and a Mac Studio on a shelf"
-           loading="lazy">
+      <div class="photo">
+        <img src="homelab.jpg"
+             alt="Homelab hardware: three stacked Intel NUCs, a Synology DS220 NAS, an ASUS NUC and a Mac Studio on a shelf"
+             loading="lazy">
+        <span class="chip" style="left:19%; top:7%;">Intel NUC &times;3</span>
+        <span class="chip" style="left:47%; top:72%;">Synology DS220</span>
+        <span class="chip" style="left:80%; top:38%;">ASUS NUC</span>
+        <span class="chip" style="left:79%; top:68%;">Mac Studio</span>
+      </div>
       <figcaption>
         <span class="tag">the hardware</span>
         <span>3&times; Intel NUC &middot; 1&times; ASUS NUC &middot; Synology DS220 &middot; Mac Studio</span>
