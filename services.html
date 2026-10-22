@@ -645,7 +645,7 @@
             <h1>Services</h1>
           </div>
         </div>
-        <a class="signout-link" href="https://auth.thelabnuc.com/logout" id="signoutBtn">Sign out</a>
+        <a class="signout-link" href="https://auth.thelabnuc.com/?rd=https%3A%2F%2Fthelabnuc.com%2Fservices.html" id="signoutBtn">Sign in</a>
       </div>
 
       <div class="rack">
@@ -731,6 +731,12 @@
         if (res.status === 401 || res.status === 403) {
           window.location.replace('index.html');
           return;
+        }
+        // Confirmed signed in: show Sign out. Otherwise the button stays "Sign in".
+        if (res.ok) {
+          const b = document.getElementById('signoutBtn');
+          b.textContent = 'Sign out';
+          b.href = 'https://auth.thelabnuc.com/logout';
         }
       } catch (err) {
         // CORS block / network error: the check can't tell us anything, so
