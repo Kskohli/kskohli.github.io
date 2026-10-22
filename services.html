@@ -714,7 +714,7 @@
     setInterval(updateClock, 1000);
 
     // ---- Session guard ----
-    // Hidden until the session is confirmed; otherwise back to the sign-in page.
+    // Sends the visitor back to sign-in only if the auth server answers 401/403.
     // (Cosmetic only: real protection must come from your auth layer on each
     // service host, e.g. forward-auth in front of wol / uptime / tty.)
     // Requirements: session cookie scoped to .thelabnuc.com, and the verify
@@ -727,11 +727,16 @@
         const res = await fetch(SESSION_CHECK_URL, {
           method: 'GET', credentials: 'include', mode: 'cors', cache: 'no-store',
         });
-        if (!res.ok) throw new Error('not signed in');
-        document.body.classList.remove('pending');
+        // Explicitly told "not signed in": back to the sign-in page.
+        if (res.status === 401 || res.status === 403) {
+          window.location.replace('index.html');
+          return;
+        }
       } catch (err) {
-        window.location.replace('index.html');
+        // CORS block / network error: the check can't tell us anything, so
+        // don't bounce a signed-in user. The service hosts still enforce auth.
       }
+      document.body.classList.remove('pending');
     }
     requireSession();
     setInterval(requireSession, SESSION_CHECK_INTERVAL_MS);
