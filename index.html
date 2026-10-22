@@ -593,6 +593,75 @@
     color: var(--muted);
   }
 
+
+  /* ---- tab bar ---- */
+  .tabbar {
+    position: relative;
+    z-index: 5;
+    border-bottom: 1px solid var(--line);
+    background: rgba(16,20,26,0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .tabbar-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .tab-brand { display: block; width: 32px; margin-right: 14px; flex-shrink: 0; }
+
+  .tab {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 17px 16px 15px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .tab:hover, .tab:focus-visible { color: var(--text); outline: none; }
+  .tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+  .tab-auth {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+    border-radius: 6px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .tab-auth:hover, .tab-auth:focus-visible { color: var(--text); border-color: #3a4456; outline: none; }
+
+  [data-panel][hidden] { display: none !important; }
+
+  #servicesPanel { max-width: 720px; width: 100%; margin: 0 auto; }
+  #servicesPanel .eyebrow { margin: 0 0 8px; }
+  #servicesPanel h1 { font-size: clamp(24px, 3.4vw, 32px); margin: 0 0 28px; }
+
+  .unit-status .label { min-width: 74px; }
+  .unit-status.checking { color: var(--amber); }
+  .unit-status.checking .led { background: var(--amber); box-shadow: 0 0 6px var(--amber); animation: pulse 1s ease-in-out infinite; }
+  .unit-status.offline { color: var(--red); }
+  .unit-status.offline .led { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+  .services-note { margin: 20px 2px 0; font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+
+  @media (max-width: 480px) {
+    .tabbar-inner { padding: 0 12px; }
+    .tab { padding: 15px 10px 13px; }
+    .tab-brand { width: 28px; margin-right: 6px; }
+  }
 </style>
 </head>
 <body>
@@ -634,8 +703,17 @@
     </symbol>
   </svg>
 
+  <nav class="tabbar" aria-label="Sections">
+    <div class="tabbar-inner">
+      <a class="tab-brand" href="#home" aria-label="theLabNUC home"><svg class="tln-logo" viewBox="0 0 704 625"><use href="#tln-logo"/></svg></a>
+      <a class="tab active" href="#home" data-tab="home">Home</a>
+      <a class="tab" href="#services" data-tab="services">Services</a>
+      <a class="tab-auth" id="authBtn" href="https://auth.thelabnuc.com/?rd=https%3A%2F%2Fthelabnuc.com%2F">Sign in</a>
+    </div>
+  </nav>
+
   <main>
-    <div class="split" id="signedOutView">
+    <div class="split" id="signedOutView" data-panel="home">
       <div class="brand-col">
         <p class="eyebrow">thelabnuc // homelab</p>
         <h1>Your homelab,<br>one login away.<span class="cursor"></span></h1>
@@ -682,7 +760,7 @@
         <h2>Sign in to continue</h2>
         <p class="sub">Authenticate once to unlock Wakeup, Service Status, and Browser Access.</p>
 
-        <a class="signin-btn" href="https://auth.thelabnuc.com/?rd=https%3A%2F%2Fthelabnuc.com%2Fservices.html" id="signinBtn">
+        <a class="signin-btn" href="https://auth.thelabnuc.com/?rd=https%3A%2F%2Fthelabnuc.com%2F" id="signinBtn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
           Sign In
         </a>
@@ -694,9 +772,53 @@
       </div>
     </div>
 
+    <div id="servicesPanel" data-panel="services" hidden>
+      <p class="eyebrow">thelabnuc // homelab</p>
+      <h1>Services</h1>
+
+      <div class="rack">
+        <a class="unit" href="https://wol.thelabnuc.com" target="_blank" rel="noopener" data-host="https://wol.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Wakeup</p>
+            <p class="unit-desc">Power machines on remotely across the lab with one click.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://uptime.thelabnuc.com" target="_blank" rel="noopener" data-host="https://uptime.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Service Status</p>
+            <p class="unit-desc">Live status for every host and service running on the cluster.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://tty.thelabnuc.com" target="_blank" rel="noopener" data-host="https://tty.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Browser Access</p>
+            <p class="unit-desc">A full browser shell into the cluster, no SSH client needed.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <p class="services-note">Each service opens in a new tab and asks you to sign in if you haven't.</p>
+    </div>
   </main>
 
-  <section class="hardware" aria-label="Homelab hardware">
+  <section class="hardware" aria-label="Homelab hardware" data-panel="home">
     <figure>
       <div class="photo">
         <img src="homelab.jpg"
@@ -782,45 +904,86 @@
     checkAuthConnectivity();
     setInterval(checkAuthConnectivity, CHECK_INTERVAL_MS);
 
-    // ---- Session check: is this browser actually signed in? ----
-    // This is different from the reachability check above - reachability
-    // just tells us the auth host is up; this tells us whether the
-    // visitor's browser currently holds a valid session with it.
-    //
-    // IMPORTANT: replace SESSION_CHECK_URL below with whatever endpoint
-    // your auth layer exposes for verifying an existing session (many
-    // forward-auth setups expose something like /api/verify that returns
-    // 2xx when authenticated and 401 otherwise). For this to work at all
-    // from this page's origin, two things have to be true on the auth
-    // side:
-    //   1. Its session cookie must be scoped to the shared parent domain
-    //      (e.g. domain=.thelabnuc.com) so it's sent on requests here.
-    //   2. It must return CORS headers allowing this exact origin with
-    //      credentials (Access-Control-Allow-Credentials: true and a
-    //      specific Access-Control-Allow-Origin, not a wildcard).
-    // Without both, the check below will simply always report "not signed
-    // in" even for an authenticated visitor - it fails safe rather than
-    // ever showing the dashboard incorrectly.
-    const SESSION_CHECK_URL = 'https://auth.thelabnuc.com/api/verify';
+    // ---- Signed-in detection ----
+    // This site is static (GitHub Pages), so a page can't protect itself; the
+    // real protection is Authelia on each service host. To know whether this
+    // browser has a session, ask a protected host (uptime) with credentials:
+    // when signed in it answers 200 with CORS headers for this origin; when
+    // not, Authelia answers with a redirect to the portal, which we treat as
+    // "not signed in". Needs the CORS middleware on the uptime ingress.
+    const SESSION_PROBE_URL = 'https://uptime.thelabnuc.com/';
+
+    // ---- Tabs (Home / Services), driven by the URL hash ----
+    function showTab(name) {
+      document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== name; });
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      if (name === 'services') checkServices();
+    }
+    const tabFromHash = () => (location.hash === '#services' ? 'services' : 'home');
+    window.addEventListener('hashchange', () => showTab(tabFromHash()));
+    showTab(tabFromHash());
+
+    // ---- Live reachability of each service (no-cors probe) ----
+    async function probe(url) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+      try {
+        await fetch(url, { mode: 'no-cors', cache: 'no-store', signal: controller.signal });
+        return true;
+      } catch (err) {
+        return false;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function setStatus(el, state, text) {
+      el.className = 'unit-status ' + state;
+      el.querySelector('.label').textContent = text;
+    }
+
+    async function checkServices() {
+      const units = document.querySelectorAll('.unit[data-host]');
+      await Promise.all([...units].map(async (u) => {
+        const ok = await probe(u.dataset.host);
+        setStatus(u.querySelector('.unit-status'), ok ? '' : 'offline', ok ? 'Online' : 'Unreachable');
+      }));
+    }
+    setInterval(() => { if (!document.getElementById('servicesPanel').hidden) checkServices(); }, CHECK_INTERVAL_MS);
+
+    // ---- Signed-in state: Sign in / Sign out button ----
+    let firstSessionCheck = true;
 
     async function checkSession() {
+      const btn = document.getElementById('authBtn');
+      let signedIn = false;
       try {
-        const res = await fetch(SESSION_CHECK_URL, {
+        const res = await fetch(SESSION_PROBE_URL, {
           method: 'GET',
           credentials: 'include',
           mode: 'cors',
           cache: 'no-store',
+          redirect: 'manual',
         });
-
-        // Already signed in: skip the sign-in screen and go to the services page.
-        if (res.ok) window.location.replace('services.html');
+        signedIn = res.type === 'cors' && res.ok;
       } catch (err) {
-        // Network error, CORS block, or endpoint not configured yet:
-        // stay on the sign-in page (fail safe).
+        signedIn = false; // redirected to the portal, CORS block or network error
       }
+
+      if (signedIn) {
+        btn.textContent = 'Sign out';
+        btn.href = 'https://auth.thelabnuc.com/logout';
+        // Just signed in and no tab chosen: open Services.
+        if (firstSessionCheck && !location.hash) location.hash = '#services';
+      } else {
+        btn.textContent = 'Sign in';
+        btn.href = 'https://auth.thelabnuc.com/?rd=https%3A%2F%2Fthelabnuc.com%2F';
+      }
+      firstSessionCheck = false;
     }
 
     checkSession();
+    setInterval(checkSession, 60000);
   </script>
 </body>
 </html>
