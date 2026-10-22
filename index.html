@@ -406,7 +406,47 @@
     color: var(--amber);
   }
 
+  /* ---- hardware photo ---- */
+  .hardware {
+    position: relative;
+    max-width: 1080px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+  }
 
+  .hardware figure {
+    margin: 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+  }
+
+  .hardware img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .hardware figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .hardware figcaption .tag {
+    color: var(--amber);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
 
   /* ---- footer ---- */
   footer {
@@ -437,6 +477,7 @@
     .signin-card { padding: 28px 22px; }
     .dash-header { flex-direction: column; align-items: flex-start; }
     .unit { padding: 16px; gap: 14px; }
+    .hardware { padding: 0 16px 36px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -555,6 +596,18 @@
       </div>
     </div>
   </main>
+
+  <section class="hardware" aria-label="Homelab hardware">
+    <figure>
+      <img src="homelab.jpg"
+           alt="Homelab hardware: three stacked Intel NUCs, a Synology DS220 NAS, an ASUS NUC and a Mac Studio on a shelf"
+           loading="lazy">
+      <figcaption>
+        <span class="tag">the hardware</span>
+        <span>3&times; Intel NUC &middot; 1&times; ASUS NUC &middot; Synology DS220 &middot; Mac Studio</span>
+      </figcaption>
+    </figure>
+  </section>
 
   <footer>
     <span><span class="dot checking" id="statusDotFooter"></span><span id="statusTextFooter">auth.thelabnuc.com — checking&hellip;</span></span>
