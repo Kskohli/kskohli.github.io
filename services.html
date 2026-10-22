@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>thelabnuc // services</title>
+<meta name="description" content="thelabnuc.com homelab services.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#10141a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -40 824 705'%3E%3Crect x='-60' y='-40' width='824' height='705' rx='120' fill='rgb(16,20,26)'/%3E%3Cpath d='M109 435A137 137 0 0 1 190 180A165 165 0 0 1 514 180A137 137 0 0 1 595 435' fill='none' stroke='rgb(232,165,68)' stroke-width='46'/%3E%3Crect x='258' y='185' width='185' height='237' rx='14' fill='rgb(230,235,242)'/%3E%3Cpolygon points='115,270 243,235 243,425 115,452' fill='rgb(230,235,242)'/%3E%3Cpolygon points='589,270 461,235 461,425 589,452' fill='rgb(230,235,242)'/%3E%3Cpath d='M350 438V522M247 442V478L160 530M457 442V478L544 530' fill='none' stroke='rgb(232,165,68)' stroke-width='22'/%3E%3Ccircle cx='350' cy='572' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='117' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='587' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="pending">
+  <!-- thelabnuc logo, recoloured to the site palette -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="tln-logo" viewBox="0 0 704 625">
+      <!-- cloud -->
+      <path d="M109 435A137 137 0 0 1 190 180A165 165 0 0 1 514 180A137 137 0 0 1 595 435"
+            fill="none" stroke-width="46" style="stroke:var(--amber)"/>
+      <!-- servers -->
+      <g stroke-width="5" stroke-linejoin="round" style="fill:var(--bg);stroke:#3a4456">
+        <rect x="258" y="185" width="185" height="237" rx="14"/>
+        <polygon points="115,270 243,235 243,425 115,452"/>
+        <polygon points="589,270 461,235 461,425 589,452"/>
+      </g>
+      <!-- server slots -->
+      <g fill="none" stroke-width="11" stroke-linecap="round" style="stroke:var(--text)">
+        <path d="M295 242H403M295 278H403M295 317H360"/>
+        <path d="M143 297L210 276M143 323L210 305M143 352L180 342"/>
+        <path d="M561 297L494 276M561 323L494 305M561 352L524 342"/>
+      </g>
+      <!-- status LEDs -->
+      <g style="fill:var(--amber)">
+        <circle cx="392" cy="321" r="11"/><circle cx="392" cy="359" r="11"/>
+        <circle cx="203" cy="343" r="9"/><circle cx="203" cy="380" r="9"/>
+        <circle cx="501" cy="343" r="9"/><circle cx="501" cy="380" r="9"/>
+      </g>
+      <!-- connectors + nodes -->
+      <g fill="none" stroke-width="18" stroke-linejoin="round" style="stroke:var(--amber)">
+        <path d="M350 438V522"/>
+        <path d="M247 442V478L160 530"/>
+        <path d="M457 442V478L544 530"/>
+      </g>
+      <g fill="none" stroke-width="26" style="stroke:var(--amber)">
+        <circle cx="350" cy="572" r="37"/>
+        <circle cx="117" cy="555" r="37"/>
+        <circle cx="587" cy="555" r="37"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <main>
+    <div id="signedInView">
+      <div class="dash-header">
+        <div class="dash-title">
+          <svg class="tln-logo" viewBox="0 0 704 625" role="img" aria-label="theLabNUC"><use href="#tln-logo"/></svg>
+          <div>
+            <p class="eyebrow">thelabnuc // homelab</p>
+            <h1>Services</h1>
+          </div>
+        </div>
+        <a class="signout-link" href="https://auth.thelabnuc.com/logout" id="signoutBtn">Sign out</a>
+      </div>
+
+      <div class="rack">
+        <a class="unit" href="https://wol.thelabnuc.com" target="_blank" rel="noopener" data-host="https://wol.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Wakeup</p>
+            <p class="unit-desc">Power machines on remotely across the lab with one click.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://uptime.thelabnuc.com" target="_blank" rel="noopener" data-host="https://uptime.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Service Status</p>
+            <p class="unit-desc">Live status for every host and service running on the cluster.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+
+        <a class="unit" href="https://tty.thelabnuc.com" target="_blank" rel="noopener" data-host="https://tty.thelabnuc.com/">
+          <div class="unit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          </div>
+          <div class="unit-body">
+            <p class="unit-name">Browser Access</p>
+            <p class="unit-desc">A full browser shell into the cluster, no SSH client needed.</p>
+          </div>
+          <span class="unit-status checking"><span class="led"></span><span class="label">Checking</span></span>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+
+      <p class="services-note">Each service opens in a new tab and is protected by the same sign-in.</p>
+    </div>
+  </main>
+
+  <footer>
+    <span><span class="dot checking" id="statusDotFooter"></span><span id="statusTextFooter">auth.thelabnuc.com — checking&hellip;</span></span>
+    <span id="clockFooter"></span>
+  </footer>
+
+  <script>
+    // ---- Clock ----
+    function getTimeZoneAbbr() {
+      try {
+        const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(new Date());
+        const tz = parts.find(p => p.type === 'timeZoneName');
+        return tz ? tz.value : '';
+      } catch (e) { return ''; }
+    }
+    function updateClock() {
+      const opts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+      const tzAbbr = getTimeZoneAbbr();
+      document.getElementById('clockFooter').textContent =
+        new Date().toLocaleTimeString('en-GB', opts) + (tzAbbr ? ' ' + tzAbbr : '');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ---- Session guard ----
+    // Hidden until the session is confirmed; otherwise back to the sign-in page.
+    // (Cosmetic only: real protection must come from your auth layer on each
+    // service host, e.g. forward-auth in front of wol / uptime / tty.)
+    // Requirements: session cookie scoped to .thelabnuc.com, and the verify
+    // endpoint must allow this origin with credentials via CORS.
+    const SESSION_CHECK_URL = 'https://auth.thelabnuc.com/api/verify';
+    const SESSION_CHECK_INTERVAL_MS = 60000;
+
+    async function requireSession() {
+      try {
+        const res = await fetch(SESSION_CHECK_URL, {
+          method: 'GET', credentials: 'include', mode: 'cors', cache: 'no-store',
+        });
+        if (!res.ok) throw new Error('not signed in');
+        document.body.classList.remove('pending');
+      } catch (err) {
+        window.location.replace('index.html');
+      }
+    }
+    requireSession();
+    setInterval(requireSession, SESSION_CHECK_INTERVAL_MS);
+
+    // ---- Live reachability of each service (no-cors probe) ----
+    const CHECK_INTERVAL_MS = 30000;
+    const TIMEOUT_MS = 5000;
+
+    async function probe(url) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+      try {
+        await fetch(url, { mode: 'no-cors', cache: 'no-store', signal: controller.signal });
+        return true;
+      } catch (err) {
+        return false;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function setStatus(el, state, text) {
+      el.className = 'unit-status ' + state;
+      el.querySelector('.label').textContent = text;
+    }
+
+    async function checkServices() {
+      const units = document.querySelectorAll('.unit[data-host]');
+      await Promise.all([...units].map(async (u) => {
+        const el = u.querySelector('.unit-status');
+        const ok = await probe(u.dataset.host);
+        setStatus(el, ok ? '' : 'offline', ok ? 'Online' : 'Unreachable');
+      }));
+    }
+
+    // ---- Auth host reachability (footer) ----
+    async function checkAuth() {
+      const dot = document.getElementById('statusDotFooter');
+      const text = document.getElementById('statusTextFooter');
+      const ok = await probe('https://auth.thelabnuc.com/');
+      dot.className = 'dot ' + (ok ? 'online' : 'offline');
+      text.textContent = 'auth.thelabnuc.com — ' + (ok ? 'online' : 'unreachable');
+    }
+
+    function refresh() { checkServices(); checkAuth(); }
+    refresh();
+    setInterval(refresh, CHECK_INTERVAL_MS);
+  </script>
+</body>
+</html>
