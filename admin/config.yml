@@ -4,7 +4,7 @@
 
 backend:
   name: github
-  repo: karamkohli/thelabnuc.github.io    # <-- change this, for example karamkohli/thelabnuc.github.io
+  repo: karamkohli/kskohli.github.io    # <-- change this, for example karamkohli/thelabnuc.github.io
   branch: main
 
 site_url: https://thelabnuc.com
