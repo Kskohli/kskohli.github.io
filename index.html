@@ -1021,11 +1021,11 @@
         await fetch(AUTH_HOST, { mode: 'no-cors', cache: 'no-store', signal: controller.signal });
         clearTimeout(timer);
         cardDot.style.background = 'var(--green)';
-        cardText.textContent = 'auth service is online';
+        cardText.textContent = 'Auth Service Status';
       } catch (err) {
         clearTimeout(timer);
         cardDot.style.background = 'var(--red)';
-        cardText.textContent = 'auth service is unreachable';
+        cardText.textContent = 'Auth Service Status';
       }
     }
 
