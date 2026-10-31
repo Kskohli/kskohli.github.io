@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>thelabnuc // managed NUC services</title>
+<title>TheLabNUC</title>
 <meta name="description" content="Bring your NUC and we will manage it for you with add-on services designed and customized for your business.">
 <meta name="theme-color" content="#10141a">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -40 824 705'%3E%3Crect x='-60' y='-40' width='824' height='705' rx='120' fill='rgb(16,20,26)'/%3E%3Cpath d='M109 435A137 137 0 0 1 190 180A165 165 0 0 1 514 180A137 137 0 0 1 595 435' fill='none' stroke='rgb(232,165,68)' stroke-width='46'/%3E%3Crect x='258' y='185' width='185' height='237' rx='14' fill='rgb(230,235,242)'/%3E%3Cpolygon points='115,270 243,235 243,425 115,452' fill='rgb(230,235,242)'/%3E%3Cpolygon points='589,270 461,235 461,425 589,452' fill='rgb(230,235,242)'/%3E%3Cpath d='M350 438V522M247 442V478L160 530M457 442V478L544 530' fill='none' stroke='rgb(232,165,68)' stroke-width='22'/%3E%3Ccircle cx='350' cy='572' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='117' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3Ccircle cx='587' cy='555' r='38' fill='none' stroke='rgb(232,165,68)' stroke-width='26'/%3E%3C/svg%3E">
@@ -798,7 +798,7 @@
   <main>
     <div class="split" id="signedOutView" data-panel="home">
       <div class="brand-col">
-        <p class="eyebrow">thelabnuc // managed NUC services</p>
+        <p class="eyebrow">TheLabNUC</p>
         <h1>Bring your NUC.<br>We'll run it for you.<span class="cursor"></span></h1>
         <p class="lead">Bring your NUC and we take care of it: setup, monitoring and upkeep. Add the services your business needs, each one designed and customized to fit how you work.</p>
         <div class="cta-row">
@@ -1117,14 +1117,14 @@
       const token = ++entryToken;
       const vid = document.getElementById('avVideo');
       const body = document.getElementById('avBody');
-      if (!slug) { document.getElementById('cbList').hidden = false; document.getElementById('cbView').hidden = true; document.title = 'thelabnuc // managed NUC services'; return; }
+      if (!slug) { document.getElementById('cbList').hidden = false; document.getElementById('cbView').hidden = true; document.title = 'TheLabNUC'; return; }
       await cbReady;
       if (token !== entryToken) return;
       const e = ENTRIES.find((x) => x.slug === slug && x.hasBody);
       document.getElementById('cbList').hidden = !!e;
       document.getElementById('cbView').hidden = !e;
       vid.innerHTML = ''; vid.hidden = true;
-      if (!e) { document.title = 'thelabnuc // managed NUC services'; return; }
+      if (!e) { document.title = 'TheLabNUC'; return; }
 
       document.getElementById('avMeta').textContent = (KIND_LABEL[e.kind] || KIND_LABEL.lab) + (e.date ? ' // ' + fmtDate(e.date) : '');
       document.getElementById('avTitle').textContent = e.title;
@@ -1168,7 +1168,7 @@
       const tab = tabFromHash();
       showTab(tab);
       if (tab === 'casebook') showEntry(decodeURIComponent(location.hash.slice('#casebook/'.length)));
-      else if (document.title.indexOf('//') > -1 && document.title !== 'thelabnuc // managed NUC services') document.title = 'thelabnuc // managed NUC services';
+      else if (document.title.indexOf('//') > -1 && document.title !== 'TheLabNUC') document.title = 'TheLabNUC';
     };
     window.addEventListener('hashchange', syncRoute);
     syncRoute();
