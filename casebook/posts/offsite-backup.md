@@ -1,5 +1,5 @@
 ---
-kind: lab
+kind: customer
 title: Offsite Backup
 date: 2026-10-31
 problem: Protect from Ransomware
